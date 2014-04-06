@@ -24,6 +24,8 @@ public:
 	Plane* wall;
 	Plane* boardA;
 	Plane* boardB;
+	Plane* window;
+	Plane* floor;
 	CGFappearance* materialA;
 	CGFappearance* materialB;
 	CGFappearance* tableAppearance;

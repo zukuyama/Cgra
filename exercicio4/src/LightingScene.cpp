@@ -11,6 +11,10 @@ float deg2rad=pi/180.0;
 
 #define BOARD_HEIGHT 6.0
 #define BOARD_WIDTH 6.4
+#define WINDOW_HEIGHT 2.5
+#define WINDOW_WIDTH 2.5
+#define FLOOR_HEIGHT 1.25
+#define FLOOR_WIDTH 1.5
 
 // Positions for two lights
 float light0_pos[4] = {4, 6.0, 1.0, 1.0};
@@ -25,6 +29,8 @@ float globalAmbientLight[4]= {0.0,0.0,0.0,1.0};
 // number of divisions
 #define BOARD_A_DIVISIONS 30
 #define BOARD_B_DIVISIONS 100
+#define WINDOW_DIVISIONS 100
+#define FLOOR_DIVISIONS 100
 
 // Coefficients for material A
 float ambA[3] = {0.2, 0.2, 0.2};
@@ -115,9 +121,11 @@ void LightingScene::init()
 	//cube = new myUnitCube();
 	table = new myTable();
 	wall = new Plane();
-	boardA = new Plane(BOARD_A_DIVISIONS);
-	boardB = new Plane(BOARD_B_DIVISIONS);
-	
+	boardA = new Plane(BOARD_A_DIVISIONS, 1.0, 1.0);	
+	boardB = new Plane(BOARD_B_DIVISIONS, 1.0, 0.7265625);
+	window = new Plane(WINDOW_DIVISIONS, 1.0, 1.0);
+	floor = new Plane(WINDOW_DIVISIONS, 0.2, 0.1667);
+
 	//Declares materials
 	materialA = new CGFappearance(ambA,difA,specA,shininessA);
 	materialB = new CGFappearance(ambB,difB,specB,shininessB);
@@ -127,10 +135,14 @@ void LightingScene::init()
 	slidesAppearance->setTexture("slides.png");
 	boardAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	boardAppearance->setTexture("board.png");
+	
 	windowAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	windowAppearance->setTexture("window.png");
+	windowAppearance->setTextureWrap(GL_CLAMP,GL_CLAMP);
+
 	floorAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	floorAppearance->setTexture("floor.png");
+		floorAppearance->setTextureWrap(GL_REPEAT,GL_REPEAT);
 	cylinder = new myCylinder(6, 2);
 }
 
@@ -167,15 +179,6 @@ void LightingScene::display()
 
 
 
-	//Floor
-	glPushMatrix();
-		glTranslated(7.5,0,7.5);
-		glScaled(15,0.2,15);
-		floorAppearance->apply();
-		wall->draw();
-		materialB->apply();
-	glPopMatrix();
-
 	//LeftWall
 	glPushMatrix();
 		glTranslated(0,4,7.5);
@@ -183,10 +186,10 @@ void LightingScene::display()
 		glScaled(8,0.2,15);
 		//GL_TEXTURE_WRAP_S;
 		//GL_CLAMP_TO_BORDER;
-		windowAppearance->apply();
+		//windowAppearance->apply();
 		//GL_CLAMP_TO_BORDER;   The coordinates that fall outside the range will be given a specified border color.
 		wall->draw();
-		materialB->apply();
+		//materialB->apply();
 	glPopMatrix();
 
 	//PlaneWall
@@ -195,6 +198,15 @@ void LightingScene::display()
 		glRotated(90.0,1,0,0);
 		glScaled(15,0.2,8);
 		wall->draw();
+	glPopMatrix();
+
+	//Floor
+	glPushMatrix();
+	glTranslated(7.5,0,7.5);
+	glScaled(15,0.2,15);
+	//glScaled(FLOOR_WIDTH,FLOOR_HEIGHT,1);
+	floorAppearance->apply();
+	floor->draw();
 	glPopMatrix();
 
 
@@ -216,6 +228,15 @@ void LightingScene::display()
 		boardAppearance->apply();
 		boardB->draw();
 		materialB->apply();
+	glPopMatrix();
+
+		//Window
+	glPushMatrix();
+		glTranslated(0.2,3.75,7.5);
+		glScaled(1,WINDOW_HEIGHT,WINDOW_WIDTH);
+		glRotated(-90.0,0,0,1);
+		windowAppearance->apply();
+		window->draw();
 	glPopMatrix();
 	
 	//Cylinder
