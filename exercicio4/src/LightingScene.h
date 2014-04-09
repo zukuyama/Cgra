@@ -8,6 +8,7 @@
 #include "myUnitCube.h"
 #include "myCylinder.h"
 
+
 class LightingScene : public CGFscene
 {
 public:
@@ -26,6 +27,7 @@ public:
 	Plane* boardB;
 	Plane* window;
 	Plane* floor;
+	
 	CGFappearance* materialA;
 	CGFappearance* materialB;
 	CGFappearance* tableAppearance;

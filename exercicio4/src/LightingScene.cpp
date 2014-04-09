@@ -45,11 +45,9 @@ float difB[3] = {0.6, 0.6, 0.6};
 float specB[3] = {0.8, 0.8, 0.8};
 float shininessB = 120.f;
 
-// Coefficients for tableAppearance
-float ambtableAppearance[3] = {0.2, 0.2, 0.2};
-float diftableAppearance[3] = {0.8, 0.8, 0.8};
-float spectableAppearance[3] = {0.2, 0.2, 0.2};
-float shininesstableAppearance = 60.f;
+
+
+
 
 
 // Coefficients for slidesAppearance
@@ -129,20 +127,24 @@ void LightingScene::init()
 	//Declares materials
 	materialA = new CGFappearance(ambA,difA,specA,shininessA);
 	materialB = new CGFappearance(ambB,difB,specB,shininessB);
-	tableAppearance = new CGFappearance(ambtableAppearance,diftableAppearance,spectableAppearance,shininesstableAppearance);
-	tableAppearance->setTexture("table.png");
+
+	
+
 	slidesAppearance= new CGFappearance(ambslidesAppearance,difslidesAppearance,specslidesAppearance,shininessslidesAppearance);
 	slidesAppearance->setTexture("slides.png");
+
 	boardAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	boardAppearance->setTexture("board.png");
-	
+	boardAppearance->setTextureWrap(GL_CLAMP,GL_CLAMP);
+
 	windowAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	windowAppearance->setTexture("window.png");
 	windowAppearance->setTextureWrap(GL_CLAMP,GL_CLAMP);
 
 	floorAppearance = new CGFappearance(ambboardAppearance,difboardAppearance,specboardAppearance,shininessboardAppearance);
 	floorAppearance->setTexture("floor.png");
-		floorAppearance->setTextureWrap(GL_REPEAT,GL_REPEAT);
+	floorAppearance->setTextureWrap(GL_REPEAT,GL_REPEAT);
+
 	cylinder = new myCylinder(6, 2);
 }
 
@@ -227,7 +229,7 @@ void LightingScene::display()
 		glRotated(90.0,1,0,0);
 		boardAppearance->apply();
 		boardB->draw();
-		materialB->apply();
+	materialB->apply();
 	glPopMatrix();
 
 		//Window
@@ -235,6 +237,7 @@ void LightingScene::display()
 		glTranslated(0.2,3.75,7.5);
 		glScaled(1,WINDOW_HEIGHT,WINDOW_WIDTH);
 		glRotated(-90.0,0,0,1);
+		glRotated(90.0,0,1,0);
 		windowAppearance->apply();
 		window->draw();
 	glPopMatrix();
@@ -251,25 +254,20 @@ void LightingScene::display()
 		cylinder->drawCylinder(10,50);
 	glPopMatrix();
 
-	 	//First Table
-	glPushMatrix();
-		glTranslated(5,0,8);
-		tableAppearance->apply();
-		table->draw();
-		materialB->apply();
-		table->drawtableLegs(3.5, 0.3, 5, 3, 0.3);
-	glPopMatrix();
-
 	
+	//First Table
+	glPushMatrix();
+	glTranslated(5,0,8);
+	table->draw();
+	glPopMatrix();
 
 	//Second Table
 	glPushMatrix();
-		glTranslated(12,0,8);
-		tableAppearance->apply();
-		table->draw();
-		materialB->apply();
-		table->drawtableLegs(3.5, 0.3, 5, 3, 0.3);
+	glTranslated(12,0,8);
+	table->draw();
 	glPopMatrix();
+
+
 	// ---- END Primitive drawing section
 	
 
@@ -292,5 +290,5 @@ LightingScene::~LightingScene()
 	delete(boardB);
 	delete(materialA);
 	delete(materialB);
-	delete(tableAppearance);
+
 }

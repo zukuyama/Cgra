@@ -2,15 +2,17 @@
 #define EXAMPLEOBJECT_H
 
 #include "CGFobject.h"
-
+#include "CGFappearance.h"
 
 class myTable: public CGFobject {
+   
+	CGFappearance* tableAppearance;
+public:
+	myTable();
+    void draw();
+    void leg();
+    void top();
 	
-	public:
-		void draw();
-		void drawtampo();
-		void drawtableLegs(float legLen, float legThick, float topWid, 
-	float topWid2, float topThick);
 };
 
 #endif
