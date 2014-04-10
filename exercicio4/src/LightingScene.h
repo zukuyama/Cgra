@@ -19,7 +19,7 @@ public:
 	CGFlight* light1;
 	CGFlight* light2;
 	CGFlight* light3;
-	//myUnitCube* cube;
+	myUnitCube* cube;
 	myTable* table;
 	myCylinder* cylinder;
 	Plane* wall;

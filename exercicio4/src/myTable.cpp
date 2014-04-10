@@ -3,6 +3,7 @@
 #include "myTable.h"
 #include "CGFapplication.h"
 #include "CGFappearance.h"
+#include "myUnitCube.h"
 
 
 myTable::myTable(){
@@ -29,10 +30,11 @@ void myTable::top() {
 	
     glScalef(5.0, 0.3, 3.0);
 	 tableAppearance->apply();
-   glutSolidCube(1.0);
+  // glutSolidCube(1.0);
  
-  glTranslated(2.5,0.1,1.5);
-   
+ // glTranslated(2.5,0.1,1.5);
+ cube.draw();
+  
     glPopMatrix();
 }
 

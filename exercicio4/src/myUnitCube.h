@@ -4,9 +4,11 @@
 #include "CGFobject.h"
 
 
+
 class myUnitCube: public CGFobject {
-	
-	public:
-		void draw();
+    public:
+		void myRect(float a, float b, float c, float d);
+        void draw();
+
 };
 #endif
